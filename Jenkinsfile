@@ -63,3 +63,7 @@ pipeline {
     post {
         always {
             echo 'Logging out from Docker...'
+            sh 'docker logout'
+        }
+    }
+}

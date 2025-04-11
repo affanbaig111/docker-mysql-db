@@ -28,18 +28,10 @@ pipeline {
             }
         }
 
-        stage('Build Other Services with Jib') {
+        stage('Build with Jib') {
             steps {
-                script {
-                    def jibServices = ['springboot-mysql-docker'] // ✅ Use a list
-
-                    for (svc in jibServices) {
-                        dir(svc) {
-                            echo "Building and pushing ${svc} with Jib..."
-                            sh 'mvn compile com.google.cloud.tools:jib-maven-plugin:3.4.0:build'
-                        }
-                    }
-                }
+                echo "Building and pushing Docker image using Jib..."
+                sh 'mvn compile com.google.cloud.tools:jib-maven-plugin:3.4.0:build'
             }
         }
 

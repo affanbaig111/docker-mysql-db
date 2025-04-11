@@ -18,6 +18,9 @@ public class SpringbootMongodbDockerApplication {
 
     @Autowired
     private BookRepo bookRepo;
+    public static void main(String[] args) {
+        SpringApplication.run(SpringbootMongodbDockerApplication.class, args);
+    }
 
     // Create a new book
     @PostMapping

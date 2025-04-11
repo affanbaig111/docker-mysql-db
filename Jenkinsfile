@@ -51,16 +51,15 @@ pipeline {
                 sh 'docker-compose up -d'
             }
         }
-    }
-    stage('Run Postman Tests') {
-        steps {
-            sh 'newman run postman/collection.json'
+
+        stage('Run Postman Tests') {
+            steps {
+                echo "Running Newman tests..."
+                sh 'newman run postman/collection.json'
+            }
         }
     }
 
     post {
         always {
-            sh 'docker logout'
-        }
-    }
-}
+            echo 'Logging out from Docker...'

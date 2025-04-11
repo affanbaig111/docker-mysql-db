@@ -52,6 +52,11 @@ pipeline {
             }
         }
     }
+    stage('Run Postman Tests') {
+        steps {
+            sh 'newman run postman/collection.json'
+        }
+    }
 
     post {
         always {

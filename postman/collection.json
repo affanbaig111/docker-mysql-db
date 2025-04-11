@@ -1,0 +1,45 @@
+{
+  "info": {
+    "name": "Book API Collection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Book",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"bookName\": \"Clean Code\",\n    \"authorName\": \"Robert C. Martin\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8765/book",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8765",
+          "path": ["book"]
+        }
+      }
+    },
+    {
+      "name": "Get All Books",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8765/book",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8765",
+          "path": ["book"]
+        }
+      }
+    }
+  ]
+}

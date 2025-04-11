@@ -36,10 +36,11 @@ public class SpringbootMongodbDockerApplication {
 
     // Get a single book by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Book> getBookById(@PathVariable Integer id) {
-        return bookRepo.findById(id)
-                .map(book -> ResponseEntity.ok().body(book))
-                .orElse(ResponseEntity.notFound().build());
+    public  Book getBookById(@PathVariable Integer id) {
+        Book book;
+        book = bookRepo.findById(id).orElse(null);
+        return book;
+
     }
 
     // Update an entire book

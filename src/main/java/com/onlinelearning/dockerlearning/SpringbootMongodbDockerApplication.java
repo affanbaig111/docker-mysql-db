@@ -39,6 +39,7 @@ public class SpringbootMongodbDockerApplication {
     public  Book getBookById(@PathVariable Integer id) {
         Book book;
         book = bookRepo.findById(id).orElse(null);
+        System.out.println(book);
         return book;
 
     }
@@ -75,6 +76,7 @@ public class SpringbootMongodbDockerApplication {
         if (bookRepo.existsById(id)) {
             bookRepo.deleteById(id);
             return ResponseEntity.noContent().build();
+
         }
         return ResponseEntity.notFound().build();
     }

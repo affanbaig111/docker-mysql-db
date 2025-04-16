@@ -9,6 +9,14 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-creds')
     }
 
+    triggers {
+        // 🔁 For GitHub push events
+        githubPush()
+
+        // Uncomment below for GitLab support
+        // gitlab(triggerOnPush: true)
+    }
+
     stages {
         stage('Checkout Code') {
             steps {

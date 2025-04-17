@@ -9,13 +9,18 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-creds')
     }
 
-    triggers {
-        // 🔁 For GitHub push events
-        githubPush()
-
-        // Uncomment below for GitLab support
-        // gitlab(triggerOnPush: true)
-    }
+   triggers {
+           // Auto-trigger on PR events (requires GitHub Plugin)
+           GitHubPRTrigger(
+               cron: '',  // Leave empty for event-driven triggering
+               triggerPhrase: '.*', // Optional: regex to match PR comments
+               onlyTriggerPhrase: false,
+               useGitHubHooks: true, // Let Jenkins auto-create webhooks
+               permitAll: true,
+               autoCloseFailedPullRequests: false,
+               adminlist: 'your-github-username' // GitHub admin(s)
+           )
+       }
 
     stages {
         stage('Checkout Code') {

@@ -10,17 +10,16 @@ pipeline {
     }
 
    triggers {
-           // Auto-trigger on PR events (requires GitHub Plugin)
-           GitHubPRTrigger(
-               cron: '',  // Leave empty for event-driven triggering
-               triggerPhrase: '.*', // Optional: regex to match PR comments
-               onlyTriggerPhrase: false,
-               useGitHubHooks: true, // Let Jenkins auto-create webhooks
-               permitAll: true,
-               autoCloseFailedPullRequests: false,
-               adminlist: 'your-github-username' // GitHub admin(s)
-           )
-       }
+       GitHubPRTrigger(
+           cron: '',
+           triggerPhrase: '.*',
+           onlyTriggerPhrase: false,
+           useGitHubHooks: true,
+           permitAll: true,
+           autoCloseFailedPullRequests: false,
+           adminlist: 'affanbaig111'
+       )
+   }
 
     stages {
         stage('Checkout Code') {

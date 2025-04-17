@@ -9,17 +9,9 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-creds')
     }
 
-   triggers {
-       GitHubPRTrigger(
-           cron: '',
-           triggerPhrase: '.*',
-           onlyTriggerPhrase: false,
-           useGitHubHooks: true,
-           permitAll: true,
-           autoCloseFailedPullRequests: false,
-           adminlist: 'affanbaig111'
-       )
-   }
+    triggers {
+        githubPush()
+    }
 
     stages {
         stage('Checkout Code') {

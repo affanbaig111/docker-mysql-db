@@ -49,6 +49,21 @@ pipeline {
                
             }
         }
+        
+
+        stage('Start with Docker Compose') {
+            steps {
+                echo "Starting services using Docker Compose..."
+                sh 'docker-compose down || true'
+                sh 'docker-compose up -d'
+            }
+        }
+        stage('Wait for Services') {
+                steps {
+                    echo 'Waiting 3 minutes for services to become healthy...'
+                    sleep time: 3, unit: 'MINUTES'
+                }
+            }
         stage('Execute SQL') {
             steps {
                 script {
@@ -65,14 +80,6 @@ pipeline {
 
                     }
                 }
-            }
-        }
-
-        stage('Start with Docker Compose') {
-            steps {
-                echo "Starting services using Docker Compose..."
-                sh 'docker-compose down || true'
-                sh 'docker-compose up -d'
             }
         }
 

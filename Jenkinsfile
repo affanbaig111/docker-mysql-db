@@ -5,6 +5,11 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('docker-hub-creds')
+        DB_USER = 'root'
+        DB_PASS = 'root'
+        DB_NAME = 'Book'
+        DB_CONTAINER = 'mysqldb'
+        SQL_FILE = 'scripts/alter_table.sql'
     }
 
     triggers {
@@ -41,8 +46,25 @@ pipeline {
             steps {
                 echo "Stopping and removing old containers/volumes..."
                 sh 'docker-compose -f docker-compose.yml down -v --remove-orphans || true'
-                sh 'docker system prune -af || true'
-                sh 'docker volume prune -f || true'
+               
+            }
+        }
+        stage('Execute SQL') {
+            steps {
+                script {
+                    if (fileExists(SQL_FILE)) {
+                        echo "✅ Found SQL script at ${SQL_FILE}, executing it..."
+
+                        sh """
+                        docker cp ${SQL_FILE} ${DB_CONTAINER}:/tmp/alter_table.sql
+                        docker exec ${DB_CONTAINER} sh -c 'mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} < /tmp/alter_table.sql'
+                        """
+
+                    } else {
+                        echo "⚠️ SQL script not found contining next stages "
+
+                    }
+                }
             }
         }
 

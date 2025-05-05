@@ -60,8 +60,8 @@ pipeline {
         }
         stage('Wait for Services') {
                 steps {
-                    echo 'Waiting 3 minutes for services to become healthy...'
-                    sleep time: 3, unit: 'MINUTES'
+                    echo 'Waiting 1 minutes for services to become healthy...'
+                    sleep time: 1, unit: 'MINUTES'
                 }
             }
         stage('Execute SQL') {

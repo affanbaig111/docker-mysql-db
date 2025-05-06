@@ -32,5 +32,15 @@ services:
       - "8765:8765"
     networks:
       - app-network
+  
+  flyway:
+    image: flyway/flyway
+    container_name: flyway-book
+    
+    volumes:
+      - ./db-migrations/book-service:/flyway/sql  # Path to your migrations
+    command: -url=jdbc:mysql://mysqldb:3306/Book -user=root -password=root migrate
+    networks:
+      - app-network
 networks:
   app-network:

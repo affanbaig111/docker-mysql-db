@@ -4,8 +4,7 @@ services:
   flyway:
     image: flyway/flyway
     container_name: flyway-book
-    depends_on:
-      - mysqldb  # Reuse the mysqldb service from your main docker-compose
+    
     volumes:
       - ./db-migrations/book-service:/flyway/sql  # Path to your migrations
     command: -url=jdbc:mysql://mysqldb:3306/Book -user=root -password=root migrate

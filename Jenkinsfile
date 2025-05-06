@@ -49,24 +49,7 @@ pipeline {
 
             }
         }
-        stage('Execute SQL') {
-            steps {
-                script {
-                    if (fileExists(SQL_FILE)) {
-                        echo "✅ Found SQL script at ${SQL_FILE}, executing it..."
 
-                        sh """
-                        docker cp ${SQL_FILE} ${DB_CONTAINER}:/tmp/alter_table.sql
-                        docker exec ${DB_CONTAINER} sh -c 'mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} < /tmp/alter_table.sql'
-                        """
-
-                    } else {
-                        echo "⚠️ SQL script not found contining next stages "
-
-                    }
-                }
-            }
-        }
 
         stage('Start with Docker Compose') {
             steps {
@@ -75,6 +58,37 @@ pipeline {
                 sh 'docker-compose up -d'
             }
         }
+        stage('Wait for Services') {
+                steps {
+                    echo 'Waiting 1 minutes for services to become healthy...'
+                    sleep time: 1, unit: 'MINUTES'
+                }
+            }
+//         stage('Execute SQL') {
+//             steps {
+//                 script {
+//                     if (fileExists(SQL_FILE)) {
+//                         echo "✅ Found SQL script at ${SQL_FILE}, executing it..."
+//
+//                         sh """
+//                         docker cp ${SQL_FILE} ${DB_CONTAINER}:/tmp/alter_table.sql
+//                         docker exec ${DB_CONTAINER} sh -c 'mysql -u${DB_USER} -p${DB_PASS} ${DB_NAME} < /tmp/alter_table.sql'
+//                         """
+//
+//                     } else {
+//                         echo "⚠️ SQL script not found contining next stages "
+//
+//                     }
+//                 }
+//             }
+//         }
+         stage('DB Migrations - Flyway') {
+             steps {
+                 echo "Running DB migrations via Flyway..."
+                 sh 'docker-compose -f docker-compose.flyway.yml up --abort-on-container-exit'
+             }
+         }
+
 
         stage('Run Postman Tests') {
             steps {

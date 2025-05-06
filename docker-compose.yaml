@@ -36,6 +36,9 @@ services:
   flyway:
     image: flyway/flyway
     container_name: flyway-book
+    depends_on:
+      mysql:
+        condition: service_healthy
     
     volumes:
       - ./db-migrations/book-service:/flyway/sql  # Path to your migrations

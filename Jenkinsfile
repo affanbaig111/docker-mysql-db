@@ -82,14 +82,16 @@ pipeline {
 //                 }
 //             }
 //         }
+        
+
+        
          stage('DB Migrations - Flyway') {
              steps {
                  echo "Running DB migrations via Flyway..."
                  sh 'docker-compose -f docker-compose.flyway.yml up --abort-on-container-exit'
              }
          }
-
-
+    
         stage('Run Postman Tests') {
             steps {
                 echo "Running Newman tests..."
